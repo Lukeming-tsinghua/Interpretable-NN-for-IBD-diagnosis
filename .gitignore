@@ -4,6 +4,7 @@ checkpoints/*
 server/static/data/*
 server/static/models/*
 
+*.out 
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
