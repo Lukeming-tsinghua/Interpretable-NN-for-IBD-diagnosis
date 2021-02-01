@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<meta charset="utf-8">
+        <link rel="stylesheet" href="{{ static_url('style.css') }}">
+        <title>Text Classification Server Demo</title>
+	<script type="text/javascript" src="{{ static_url('jquery-3.5.1.min.js') }}"></script>
+	<script type="text/javascript" src="{{ static_url('echarts.min.js') }}"></script>
+	<script type="text/javascript" src="{{ static_url('script.js') }}"></script>
+    </head>
+    <body>
+	<div class="query">
+		<form action="/" method="post">
+		<textarea type="text" name="texts" class="query-text"></textarea>
+		<select name="model-select">
+			{% for i, model_name in enumerate(models) %}
+			<option value="{{i}}">{{model_name.__class__.__name__}}</option>
+			{% end %}
+		</select>
+		<input type="submit" value="Submit" class="submit-btn"/>
+		</form>
+	</div>
+	<hr>
+	{% if show_result %}
+	{%for i, result in enumerate(results) %}
+	<div class="display">
+		<div class="display-text-active">
+		{% for cls in ["UC","JH","CR"] %}
+			{% if result["label"] == cls %}
+				<div class="display-text-active" id={{"text-"+cls+"-"+str(i)}}>
+					{% for word, attr in zip(result["words"], result["attributions"][cls]) %}
+						{% if attr < 0 %}
+						<span style="background:rgba(220,20,60,{{attr}})">{{word}}</span>
+						{% else %}
+						<span style="background:rgba(50,205,50,{{attr}})">{{word}}</span>
+						{% end %}
+					{% end %}
+				</div>
+			{% else %}
+				<div class="display-text" id={{"text-"+cls+"-"+str(i)}}>
+					{% for word, attr in zip(result["words"], result["attributions"][cls]) %}
+						{% if attr < 0 %}
+						<span style="background:rgba(220,20,60,{{attr}})">{{word}}</span>
+						{% else %}
+						<span style="background:rgba(50,205,50,{{attr}})">{{word}}</span>
+						{% end %}
+					{% end %}
+				</div>
+			{% end %}
+		{% end %}
+		</div>
+		<div class="display-figure" id="figure-main-{{i}}"></div>
+		<script type="text/javascript">
+			var myChart = echarts.init(document.getElementById('figure-main-{{i}}'));
+			option = {
+			    xAxis: {
+			        type: 'category',
+				data: ["UC", "CR", "JH"]
+			    },
+			    yAxis: {
+			        type: 'value',
+				name: 'prob',
+				max: 1
+			    },
+			    series: [{
+				data: {{result["pred"]}},
+			        type: 'bar',
+			        showBackground: true,
+			        backgroundStyle: {
+			            color: 'rgba(220, 220, 220, 0.8)'
+			        }
+			    }]
+			};
+			myChart.setOption(option);
+		</script>
+		<div class="display-result">
+			<table class="result-table">
+			{% for cls in ["UC", "JH", "CR"] %}
+				{% if result["label"] == cls %}
+					<tr>
+						<td><button class="result-btn large red button" id={{"btn-"+cls+"-"+str(i)}} onclick="showdiv('#text-{{cls+"-"+str(i)}}')"/>{{cls}}</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td><button class="result-btn large button" id={{"btn-"+cls+"-"+str(i)}} onclick="showdiv('#text-{{cls+"-"+str(i)}}')"/>{{cls}}</td>
+					</tr>
+				{% end %}
+				
+			{% end %}
+			</table>
+		</div>
+	</div>
+	{% end %}
+	{% end %}
+    </body>
+</html>
