@@ -11,6 +11,7 @@ def get_args():
     parser = argparse.ArgumentParser(description="Training Arguments")
     parser.add_argument('--save_dir', default="checkpoints",type=str, help="saving directory")
     parser.add_argument('--save_config', default="CNN-",type=str, help="saving config")
+    parser.add_argument('--model_config', default=None,type=str, help="model config")
     parser.add_argument('--batch_size',
                         type=int,
                         help="batch size train",

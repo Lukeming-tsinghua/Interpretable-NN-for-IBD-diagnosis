@@ -1,11 +1,17 @@
 from collections import namedtuple
+import os
+import warnings
 
 import torch
+from transformers import AutoTokenizer, AutoModelWithLMHead
 
 from config import ConfigBinaryClassification
 from config import ConfigTripleClassification
 from LAC import LAC
 from torchtext import data, vocab
+
+
+warnings.filterwarnings("ignore")
 
 
 class LacTokenizer(object):
@@ -53,6 +59,49 @@ def DataIterator(config,
                 tokenizer=TEXT)
 
 
+class SentenceDataset(torch.utils.data.Dataset):
+    def __init__(self, tokenizer, path, max_length = 256, dataset="train", filetype=".tsv", cuda=False):
+        self.tokenizer = tokenizer
+        self.path = path
+        self.max_length = max_length
+        self.dataset = dataset
+        self.filetype = filetype
+        self.cuda = cuda
+        self.data = None
+        self.label = None
+        self._load_data()
+
+    def _load_data(self):
+        assert self.dataset in ("train", "valid")
+        filepath = os.path.join(self.path, self.dataset + self.filetype)
+        texts = []
+        labels = []
+        with open(filepath) as f:
+            line = f.readline()
+            while line:
+                text, label = line.replace("\n", "").split("\t")
+                texts.append(text)
+                labels.append(int(label))
+                line = f.readline()
+        self.data = self.tokenizer(texts, truncation=True, padding=True, max_length=256)
+        self.labels = torch.tensor(labels)
+
+
+    def __getitem__(self, idx):
+        encodings = {key: torch.tensor(value[idx]).cuda() if self.cuda else torch.tensor(value[idx]) for key, value in self.data.items()}
+        label = self.labels[idx].cuda() if self.cuda else self.labels[idx]
+        return encodings, label
+
+    def __len__(self):
+        return len(self.labels)
+
+
 if __name__ == "__main__":
     Data = DataIterator(ConfigBinaryClassification)
     print(Data)
+    tokenizer = AutoTokenizer.from_pretrained("bert-base-chinese")
+    model = AutoModelWithLMHead.from_pretrained("bert-base-chinese")
+    dataset = SentenceDataset(tokenizer,"./data/CR-JH/", cuda=True)
+    print(dataset[0])
+
+
