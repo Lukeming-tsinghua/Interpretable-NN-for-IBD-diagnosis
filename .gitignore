@@ -1,8 +1,8 @@
 # directory
-data/
-checkpoints/
-server/static/data/
-server/static/models/
+data/*
+checkpoints/*
+server/static/data/*
+server/static/models/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
