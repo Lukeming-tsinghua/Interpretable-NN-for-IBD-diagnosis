@@ -5,6 +5,7 @@ import tqdm
 import random
 import jieba
 import pickle
+import joblib
 
 import numpy as np
 import pandas as pd
@@ -30,7 +31,7 @@ from captum.attr import configure_interpretable_embedding_layer, remove_interpre
 
 
 cuda = True
-device = torch.device("cuda:0" if cuda else "cpu")
+device = torch.device("cuda:1" if cuda else "cpu")
 
 model_path = "checkpoints/roberta20"
 
@@ -218,19 +219,21 @@ print("loading LAC...")
 lac = LAC(mode="seg")
 lac.load_customization('data/add_vocab.txt', sep="\t")
 
-begin = 318
-pbar = tqdm.tqdm(total=len(data[begin:]))
-for i, sample in enumerate(data[begin:]):
+pbar = tqdm.tqdm(total=len(data))
+results = []
+for i, sample in enumerate(data):
     try:
         res = generate(sample, lac)
-        with open("checkpoints/tmp_result/results_roberta_%d.pkl"%(i+begin), "wb") as f:
-            pickle.dump(res._asdict(), f)
     except RuntimeError as exception:
         if "out of memory" in str(exception):
             print("WARNING: OOM")
             if hasattr(torch.cuda, 'empty_cache'):
-                print(i+begin)
-                break
+                torch.cuda.empty_cache()
+                remove_interpretable_embedding_layer(model, interpretable_embedding1)
+                remove_interpretable_embedding_layer(model, interpretable_embedding2)
+                remove_interpretable_embedding_layer(model, interpretable_embedding3)
         else:
             raise exception
     pbar.update(1)
+with open("checkpoints/results-PTM.jl","wb") as f:
+    joblib.dump([tuple(result) for result in results], f)
