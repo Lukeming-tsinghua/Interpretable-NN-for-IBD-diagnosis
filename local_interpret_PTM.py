@@ -33,7 +33,7 @@ from captum.attr import configure_interpretable_embedding_layer, remove_interpre
 cuda = True
 device = torch.device("cuda:1" if cuda else "cpu")
 
-model_path = "checkpoints/roberta20"
+model_path = "checkpoints/roberta24"
 
 model = BertForSequenceClassification.from_pretrained(model_path,num_labels=2)
 model.to(device)

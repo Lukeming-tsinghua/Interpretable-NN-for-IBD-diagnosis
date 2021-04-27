@@ -1,12 +1,14 @@
 # train CNN model
-#python train.py
+#python -u train.py\
+#       	--batch_size 128\
+#	--cuda 1
 
 # finetune PTM
-python finetune.py\
+python -u finetune.py\
 	--lr 5e-5\
 	--save_config roberta\
        	--batch_size 16\
 	--model_config hfl/chinese-roberta-wwm-ext\
 	--class_num 2\
-	--cuda 0
+	--cuda 1
 

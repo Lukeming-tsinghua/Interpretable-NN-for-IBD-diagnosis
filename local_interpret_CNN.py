@@ -32,8 +32,8 @@ if __name__ == "__main__":
     token_reference = TokenReferenceBase(reference_token_idx=PAD_IND)
 
 
-    model = torch.load('checkpoints/CNN-28')
-    device = torch.device("cuda:0")
+    model = torch.load('checkpoints/CNN-27')
+    device = torch.device("cuda:1")
     model = model.to(device)
     model.eval()
     lig = LayerIntegratedGradients(model, model.embedding)
