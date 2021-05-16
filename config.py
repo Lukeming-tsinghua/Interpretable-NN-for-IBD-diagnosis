@@ -15,6 +15,13 @@ class ConfigTripleClassification(ConfigBase):
     label_map = {"UC": 0, "CR": 1, "JH": 2}
 
 
+class ConfigBinaryClassificationDistill(ConfigBase):
+    RAW_DATA_FILES = ["CR.xlsx", "JH.xlsx"]
+    RAW_DATA_FILES_UNSUP = ["UC.xlsx", "train.xlsx"]
+    DATA_PATH = "./data/CR-JH-distill/"
+    label_map = {"CR": 0, "JH": 1}
+
+
 class ConfigBinaryClassification(ConfigBase):
     RAW_DATA_FILES = ["CR.xlsx", "JH.xlsx"]
     RAW_DATA_FILES_UNSUP = ["UC.xlsx", "train.xlsx"]

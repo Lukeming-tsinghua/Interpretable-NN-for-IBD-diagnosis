@@ -32,8 +32,8 @@ if __name__ == "__main__":
     token_reference = TokenReferenceBase(reference_token_idx=PAD_IND)
 
 
-    model = torch.load('checkpoints/CNN-27')
-    device = torch.device("cuda:1")
+    device = torch.device("cuda:0")
+    model = torch.load('checkpoints/CNN-distill-26', map_location=device)
     model = model.to(device)
     model.eval()
     lig = LayerIntegratedGradients(model, model.embedding)
@@ -76,5 +76,5 @@ if __name__ == "__main__":
     
         results.append(Result(words=unpad_words, label=sample.label, attribution=unpad_attributions))
 
-    with open("checkpoints/results-CNN.jl","wb") as f:
+    with open("checkpoints/results-CNN-distill.jl","wb") as f:
         joblib.dump([tuple(result) for result in results], f)

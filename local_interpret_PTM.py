@@ -224,6 +224,7 @@ results = []
 for i, sample in enumerate(data):
     try:
         res = generate(sample, lac)
+        results.append(res)
     except RuntimeError as exception:
         if "out of memory" in str(exception):
             print("WARNING: OOM")
