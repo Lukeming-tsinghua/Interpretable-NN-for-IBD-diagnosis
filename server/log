@@ -1,0 +1,66 @@
+2021-05-16 16:24:26.043114: W tensorflow/stream_executor/platform/default/dso_loader.cc:59] Could not load dynamic library 'libcudart.so.10.1'; dlerror: libcudart.so.10.1: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/lib:/home/lyc/cuda-11.1/lib64
+2021-05-16 16:24:26.043172: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+begin loading models
+initial tokenizer...
+/home/lyc/anaconda3/envs/paddle/lib/python3.7/site-packages/torchtext/data/field.py:150: UserWarning: Field class will be retired soon and moved to torchtext.legacy. Please see the most recent release notes for further information.
+  warnings.warn('{} class will be retired soon and moved to torchtext.legacy. Please see the most recent release notes for further information.'.format(self.__class__.__name__), UserWarning)
+/home/lyc/anaconda3/envs/paddle/lib/python3.7/site-packages/torchtext/data/example.py:68: UserWarning: Example class will be retired soon and moved to torchtext.legacy. Please see the most recent release notes for further information.
+  warnings.warn('Example class will be retired soon and moved to torchtext.legacy. Please see the most recent release notes for further information.', UserWarning)
+/home/lyc/anaconda3/envs/paddle/lib/python3.7/site-packages/torchtext/data/example.py:78: UserWarning: Example class will be retired soon and moved to torchtext.legacy. Please see the most recent release notes for further information.
+  warnings.warn('Example class will be retired soon and moved to torchtext.legacy. Please see the most recent release notes for further information.', UserWarning)
+/home/lyc/anaconda3/envs/paddle/lib/python3.7/site-packages/torchtext/data/iterator.py:48: UserWarning: Iterator class will be retired soon and moved to torchtext.legacy. Please see the most recent release notes for further information.
+  warnings.warn('{} class will be retired soon and moved to torchtext.legacy. Please see the most recent release notes for further information.'.format(self.__class__.__name__), UserWarning)
+initial inference model...
+initial attribution method ... 
+initial tokenizer...
+initial inference model...
+initial lac model...
+initial interpretable embedding layers ...
+/home/lyc/anaconda3/envs/paddle/lib/python3.7/site-packages/captum/attr/_models/base.py:189: UserWarning: In order to make embedding layers more interpretable they will be replaced with an interpretable embedding layer which wraps the original embedding layer and takes word embedding vectors as inputs of the forward function. This allows us to generate baselines for word embeddings and compute attributions for each embedding dimension. The original embedding layer must be set back by calling `remove_interpretable_embedding_layer` function after model interpretation is finished. 
+  "In order to make embedding layers more interpretable they will "
+begin activating server
+[I 210516 16:25:40 web:2250] 200 GET / (153.122.67.66) 26.63ms
+[I 210516 16:25:40 web:2250] 200 GET /static/style.css?v=c96479ffe7676a52ca11c51056396ebe (153.122.67.66) 3.53ms
+[I 210516 16:25:40 web:2250] 200 GET /static/jquery-3.5.1.min.js?v=dc5e7f18c8d36ac1d3d4753a87c98d0a (153.122.67.66) 1.17ms
+[I 210516 16:25:40 web:2250] 200 GET /static/script.js?v=637d4a3affc52cd01327bb675567e8b3 (153.122.67.66) 0.67ms
+[W 210516 16:25:41 web:2250] 404 GET /favicon.ico (153.122.67.66) 3.76ms
+[I 210516 16:25:45 web:2250] 304 GET / (153.122.67.66) 7.52ms
+[I 210516 16:25:46 web:2250] 200 GET /static/echarts.min.js?v=34a592df9cf88d5743f018f98049558a (153.122.67.66) 440.17ms
+[E 210516 16:28:47 web:1792] Uncaught exception POST / (153.122.67.66)
+    HTTPServerRequest(protocol='http', host='166.111.224.7:5000', method='POST', uri='/', version='HTTP/1.1', remote_ip='153.122.67.66')
+    Traceback (most recent call last):
+      File "/home/lyc/anaconda3/envs/paddle/lib/python3.7/site-packages/tornado/web.py", line 1703, in _execute
+        result = await result
+      File "/home/lyc/anaconda3/envs/paddle/lib/python3.7/site-packages/tornado/gen.py", line 191, in wrapper
+        result = func(*args, **kwargs)
+      File "/media/sda1/Lukeming/Interpretable-NN-for-IBD-diagnosis/server/handler.py", line 39, in post
+        attributions = {self.labels[i]: attributions[i] for i in range(len(self.labels))}
+      File "/media/sda1/Lukeming/Interpretable-NN-for-IBD-diagnosis/server/handler.py", line 39, in <dictcomp>
+        attributions = {self.labels[i]: attributions[i] for i in range(len(self.labels))}
+    IndexError: list index out of range
+[E 210516 16:28:47 web:2250] 500 POST / (153.122.67.66) 768.34ms
+[E 210516 16:29:31 web:1792] Uncaught exception POST / (153.122.67.66)
+    HTTPServerRequest(protocol='http', host='166.111.224.7:5000', method='POST', uri='/', version='HTTP/1.1', remote_ip='153.122.67.66')
+    Traceback (most recent call last):
+      File "/home/lyc/anaconda3/envs/paddle/lib/python3.7/site-packages/tornado/web.py", line 1703, in _execute
+        result = await result
+      File "/home/lyc/anaconda3/envs/paddle/lib/python3.7/site-packages/tornado/gen.py", line 191, in wrapper
+        result = func(*args, **kwargs)
+      File "/media/sda1/Lukeming/Interpretable-NN-for-IBD-diagnosis/server/handler.py", line 39, in post
+        attributions = {self.labels[i]: attributions[i] for i in range(len(self.labels))}
+      File "/media/sda1/Lukeming/Interpretable-NN-for-IBD-diagnosis/server/handler.py", line 39, in <dictcomp>
+        attributions = {self.labels[i]: attributions[i] for i in range(len(self.labels))}
+    IndexError: list index out of range
+[E 210516 16:29:31 web:2250] 500 POST / (153.122.67.66) 34442.88ms
+[I 210517 03:49:54 web:2250] 200 GET / (162.142.125.53) 6.81ms
+[I 210517 03:49:55 web:2250] 200 GET / (162.142.125.53) 8.03ms
+[I 210517 08:16:40 web:2250] 200 GET / (192.241.220.203) 6.37ms
+[I 210518 03:35:54 web:2250] 200 GET / (92.118.161.61) 7.51ms
+[I 210518 05:37:59 web:2250] 200 GET / (46.101.225.137) 9.99ms
+[I 210518 05:52:47 web:2250] 200 GET / (104.206.128.34) 8.16ms
+[I 210518 11:59:32 web:2250] 200 GET / (23.129.64.200) 6.35ms
+[I 210518 16:37:31 http1connection:289] Malformed HTTP message from 45.79.80.153: Malformed HTTP request line
+[I 210518 16:37:32 web:2250] 200 GET / (45.79.80.153) 8.71ms
+[I 210518 20:23:21 web:2250] 200 GET / (162.142.125.37) 8.15ms
+[I 210519 15:09:46 web:2250] 200 GET / (74.120.14.40) 8.47ms
+[I 210519 15:09:47 web:2250] 200 GET / (74.120.14.40) 7.68ms

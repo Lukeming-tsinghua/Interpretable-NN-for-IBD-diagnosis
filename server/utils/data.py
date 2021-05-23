@@ -8,7 +8,7 @@ from collections import namedtuple
 class LacTokenizer(object):
     def __init__(self):
         self.lac = LAC(mode="seg")
-        self.lac.load_customization('../xai/data/addwords.txt', sep="\t")
+        self.lac.load_customization('static/data/addwords.txt', sep="\t")
 
     def __call__(self, text):
         return self.lac.run(text)
@@ -22,7 +22,7 @@ def DataIterator(train="train.tsv", valid="valid.tsv", token="lac", padding_leng
     LABEL = data.Field(sequential=False, use_vocab=False)
     
     train_dataset, valid_dataset = data.TabularDataset.splits(
-                path = "../data", format = 'tsv', skip_header = False,
+                path = "static/data/CR-JH/", format = 'tsv', skip_header = False,
                 train=train, validation=valid,
                 fields=[
                             ('text', TEXT),

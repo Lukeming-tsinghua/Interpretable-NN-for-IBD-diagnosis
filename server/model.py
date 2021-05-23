@@ -23,7 +23,7 @@ from transformers import BertModel
 from transformers import BertForSequenceClassification
 
 class CNNPredictionModel:
-    def __init__(self, model_path="static/CNN29",seq_length=256):
+    def __init__(self, model_path="static/models/CNN-29",seq_length=256):
         self.seq_length = seq_length
         self.initialize(model_path)
 
@@ -33,7 +33,7 @@ class CNNPredictionModel:
         self.PAD_IND = self.tokenizer.vocab.stoi['<pad>']
         self.token_reference = TokenReferenceBase(reference_token_idx=self.PAD_IND)
         print("initial inference model...")
-        self.model = torch.load(model_path).cpu().eval()
+        self.model = torch.load(model_path, map_location="cpu").eval()
         print("initial attribution method ... ")
         self.lig = LayerIntegratedGradients(self.model, self.model.embedding)
 
@@ -78,9 +78,9 @@ class CNNPredictionModel:
 
 class RobertaPredictionModel:
     def __init__(self, 
-            model_path="static/chinese-roberta-wwm-ext5", 
+            model_path="static/models/roberta29", 
             tokenizer_path="hfl/chinese-roberta-wwm-ext",
-            lac_dict_path="static/addwords.txt"):
+            lac_dict_path="static/data/addwords.txt"):
         self.model_path = model_path
         self.tokenizer_path = tokenizer_path
         self.lac_dict_path = lac_dict_path
@@ -93,7 +93,7 @@ class RobertaPredictionModel:
         self.sep_token_id = self.tokenizer.sep_token_id
         self.cls_token_id = self.tokenizer.cls_token_id
         print("initial inference model...")
-        self.model = BertForSequenceClassification.from_pretrained(self.model_path,num_labels=3).cpu().eval()
+        self.model = BertForSequenceClassification.from_pretrained(self.model_path,num_labels=2).cpu().eval()
         self.model.zero_grad()
         print("initial lac model...")
         self.lac = LAC(mode="seg")

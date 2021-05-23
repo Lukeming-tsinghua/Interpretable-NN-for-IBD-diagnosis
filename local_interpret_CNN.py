@@ -33,7 +33,7 @@ if __name__ == "__main__":
 
 
     device = torch.device("cuda:0")
-    model = torch.load('checkpoints/CNN-distill-26', map_location=device)
+    model = torch.load('checkpoints/CNN-debias-29', map_location=device)
     model = model.to(device)
     model.eval()
     lig = LayerIntegratedGradients(model, model.embedding)
@@ -76,5 +76,5 @@ if __name__ == "__main__":
     
         results.append(Result(words=unpad_words, label=sample.label, attribution=unpad_attributions))
 
-    with open("checkpoints/results-CNN-distill.jl","wb") as f:
+    with open("checkpoints/results-CNN-debias.jl","wb") as f:
         joblib.dump([tuple(result) for result in results], f)
